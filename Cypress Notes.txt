@@ -1,0 +1,99 @@
+For first time setup ->Open terminal in VS code and run below commands:
+
+Learn javascript from
+developer.mozilla.org
+
+1.Create package.json with default values ->npm -i init
+
+2.Cypress installation - > 
+npm install cypress --save-dev
+npm install -D cypress-iframe
+
+3.Needs to eneble this to run powershell from ur pc->Set-ExecutionPolicy RemoteSigned
+
+4.Execute cypress with command as ->./node_modules/.bin/cypress open
+
+
+Open Visula Studio code
+1.Navigate to cypress.config.js and add property as "specPattern : 'cypress/integration/examples/Test.js'"
+then we can see aal tests in below url:
+http://localhost:61549/__/#/specs
+
+2.Run all tests from command prompt:(always headless by default)
+./node_modules/.bin/cypress run
+
+./node_modules/.bin/cypress run --headed
+./node_modules/.bin/cypress run --browser edge
+
+Practice Site:
+https://rahulshettyacademy.com/seleniumPractise/#/
+
+Cypress works with css selector only:
+1.#id or tagname#id
+2.tagname.classname or .classname
+3.tagname[attribute=value]
+4. div/span --> div span (parent to child separated by space)
+
+to get autosuggestion
+/// <reference type="Cypress" />
+
+Run all files in cypress
+./node_modules/.bin/cypress run
+
+Run single file in cypress
+./node_modules/.bin/cypress run --spec cypress/integration/examples/Test1.js,cypress/integration/examples/Test2.js --env url=http://www.google.com --headed
+
+Reporting
+npm install --save-dev mochawesome
+npm install --save-dev mocha
+
+add below key-value in cypress.json
+"reporter": "mochawesome"
+
+command line:
+cypress run --reporter mochawesome
+
+./node_modules/.bin/cypress run --reporter mochawesome --spec cypress/integration/examples/Test1.js
+-------------------------------------
+Cucumber installation steps:
+
+1.Install dependency
+npm install --save-dev cypress-cucumber-preprocessor
+
+2.Add below in cyoress.config.js
+const cucumber = require('cypress-cucumber-preprocessor').default
+
+3.Add below in cypress.config.js inside setupNodeEvents
+
+on('file:preprocessor', cucumber())
+
+4.Add specpattern as /*.feature in cypress.config.js
+
+5.Add below in package.json to create configuration for plugin
+
+"cypress-cucumber-preprocessor": {
+  "nonGlobalStepDefinitions": true
+}
+
+6.Add plugin in visual studio
+Cucumber-Gherkin-full-support
+
+-------------------------cucumber reporter
+
+1.Add below code in package.json to generate json report
+
+"cypress-cucumber-preprocessor": {
+    "cucumberJson": {
+      "generate": true,
+      "outputFolder": "cypress/cucumber-json",
+      "filePrefix": "",
+      "fileSuffix": ".cucumber"
+    }
+  }
+
+
+2. Create a cucumber-html-reporter.js file in parent folder
+add plugin code in it
+https://github.com/wswebcreation/multiple-cucumber-html-reporter
+
+modify source and output directory in it

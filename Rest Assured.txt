@@ -1,0 +1,273 @@
+Postman:
+
+
+1.Set Environmental variable from repose:
+	var data= JSON.parse(responseBody);
+	
+	postman.setEnvironmentVariable('token', data.access_token);
+	
+2.Get environment variable:
+
+	pm.environment.get("client_id")
+
+
+
+----------------------------------------------
+
+
+Maven Dependencies:
+	Rest Assured
+	Hamcrest
+	TestNg
+
+----------------------------------
+RestAssured,baseURL = ""
+
+Given->	queryParam("k","v") if (only one parama needs to send) else queryParams(k,v).queryParams(k,v)
+	header("k", "v")
+	body("") -->json body as string
+			-->Windows->Preferences->Java->Editor->typing->Select Escape text when pasting into string literal
+	log().all()
+	.multipart("file", new File("jira.txt"))
+			--> send file as an attachment, needs to header as content-type="multipart/form-data"
+	urlEncodingEnabled(false)
+
+
+when()->post(resourceName)
+	put(resourcename)
+
+then()->assertThat()
+		StatusCode(200)
+		body("",equalTo("")) -->equalTo available in hamcrest
+		header("", "")
+	log().all()
+	extract().response().asString()
+
+Note: 
+	instead of writting .then() we can write .asString() after when(), it will return all the response in string format
+
+
+----------------------------------
+JSONPath ->convert string to json
+
+JSONPath js = new JSONPath(response);
+
+//get value with below code
+js.getString("needs to write jsonpath here")
+
+e.g. for json path 
+
+parentObj.childObj
+
+//in case array use indexes
+parentObj[0].childObj
+
+//getSize in case of json arrays using ".size" method
+js.getInt("courses.size()")
+
+-----------------------------------
+
+There are two ways for assertions:
+	1. .body method in then()
+	2. js.getString() method in JSONPath
+
+
+-------------------------------------------
+
+In ase we are getting a data from json file
+use below method to convert file data --> bytes and then bytes-->string
+
+Files.readAllBytes(Path.get("C:/test.json"))
+
+new String(above files object )
+
+---------------------------------------------
+
+Authentication types:
+1.cookies
+	
+Step1: get session cookies from server by sending authentication details
+e.g.
+curl -X POST \
+  http://jira.example.com:8090/jira/rest/auth/1/session \
+  -H 'content-type: application/json' \
+  -d '{ "username": "myuser", "password": "mypassword" }'
+
+Response: 
+{
+   "loginInfo" : {
+      "lastFailedLoginTime" : "2013-11-27T09:43:28.839+0000",
+      "previousLoginTime" : "2013-12-04T07:54:59.824+0000",
+      "loginCount" : 2,
+      "failedLoginCount" : 1
+   },
+   "session" : {
+      "name" : "JSESSIONID",
+      "value" : "6E3487971234567896704A9EB4AE501F"
+   }
+}
+
+Step2: Use the session cookie in a request header
+headers: {cookie: JSESSIONID=6E3487971234567896704A9EB4AE501F}
+
+
+	
+	-basic 
+	-oauth
+
+
+---------------------------
+There are two ways to automate for Session cookie
+1. then().extract().response().asString() ---> store it in string variable
+and write json path to get session get js.getString("session.name") and js.getString('session.value')
+
+2.use SessionFilter variable
+
+SessionFilter session = new SessionFilter()
+
+Step1: In call for authentication add filter() method in given()
+
+given().header().body().filter(session)
+	.when().post("/rest/auth/1/session")
+	.then().extract().response().asString()
+
+
+Step2: add same filter(session) method in all subsequent calls
+
+given().header().body().filter(session)
+	.when().post("rest/api/2/issue/commnet")
+	.then().extract().response().asString()
+
+-------------------------------bypass certification-------------
+
+given().relaxedHTTPSValidation()
+
+---------------------------------------------------------------
+Oauth 2.0
+https://auth0.com/intro-to-iam/what-is-oauth-2
+
+Mandatory:
+client Id: with which application is registered with authentication server i.e. google
+client secret:
+Scope: what details are required from auth server i.e. google
+Auth URL: server url for autherization i.e. google.com/o/oauth2/v2
+State: some random word u send in request..same word should be received in response
+response_type = code (means otp)
+
+
+optional:
+redirecct_url = where we needs to navigate after autherization
+
+
+Process:
+There are three urls available:
+	1.redirect url
+	2.Autherization server url
+	3.Access token url
+
+Step1: Get otp code with auth sever url (needs selenium here)
+
+send only clientId now in api
+in UI:
+We will be asked to login to google
+After successful autherisation otp will be generated
+and that otp will be present in the url. just verify below content from that url:
+
+State:
+code: ->this is that otp
+scope:
+
+Step2: get token now from access token url (urlEncodingEnabled=false)
+
+send otp, clientId, client_Secret, grant_type = clientCred/autherization_code/password
+
+we will get access token in response body
+
+
+------------------------grant types:
+Client cred: if we registred with auth server and wanted to use for our own purpose
+		or application requests its own data
+		e.g. bookmyshow app wants autherization for their account
+
+Autherization code: if we are registed with auth server and our user subscriber wants to authenticate
+			e.g we are logging to bookmyshow using google cred
+
+Password Credentials : if bookmyshow has procided us any cred to authenticate with google
+
+-----------------------------
+Serialization:(using getters method)
+	-java obj to json
+
+De-Serialization: (using setters method)
+	-json to java obj
+
+Library: 
+	Jackson databind
+	Jackson annotation
+	Jackson core
+	Gson
+
+Constructing payload:
+	-for every json or subjson create pojo class
+	-for json arrays create List<pojo class>
+
+e.g
+
+ParentPOJOClass pojo = Given()....expect().defaultParser(Parser.JSON)
+			.when().get("")
+			.as(ParentPOJOClass.class)
+
+-->No needs to add default parser in case response header contains content-type-->application/json
+
+
+-----------------Framwork:
+
+RequestSpecBuilder ---> to build contentType,baseURI and queryParam --> build
+
+
+ResponseSpecBuilder -->expectContentType, expectStatusCode --> build
+
+
+
+
+----------------------------JSON for reading/writting response from JSON file----------------
+
+javaObjects to jsonFile ----->objectMapper.writevalue(jsonfile, classObject)
+
+jsonfile to javaObjects ----->objectMapper.readvalues(jsonFile, .class )
+
+--------------------------------------------------------------------------------------------
+
+---------------------------create a json file consisting of json array
+
+1.create arrayList of pojo objects
+
+2.convert each pojo object into jsonstring
+	Gson g =  new GSON()
+	String s = g.toJson(pojoObject)
+
+3.Add each jsonstring into jsonArray
+	JSONArray jsonArray = new JSONArray()
+	jsonArray.add(jsonString)
+
+4.Create simple JSON object
+	JSONObject js = new JSONObject()
+	js.put("data", jsonArray)
+
+----------------------------------------------------------------------------------------
+
+
+1.receive response as jsonString	>>>		then().extract().response().asString()
+2.Read values from jsonString		>>>		JSONPath js = new JSONPath(extractedString); js.getString(parent.child)
+3.getSize of json arrays            >>>  	js.getInt("courses.size()")
+4.convert jsonfile into string		>>>		new String(Files.readAllBytes(Path.get("C:/test.json")))
+5.receive response as pojoclass		>>>		ParentPOJOClass pojo = Given()....expect().defaultParser(Parser.JSON).when().get("").as(ParentPOJOClass.class)
+
+6.javaObjects to jsonFile 			>>>		objectMapper.writevalue(jsonfile, classObject)
+7.jsonfile to javaObjects 			>>>		objectMapper.readvalues(jsonFile, .class )
+
+8.javaObject to jsonString			>>>		Gson g =  new GSON(); String s = g.toJson(pojoObject)
+9.jsonString to jsonArray			>>>		JSONArray jsonArray = new JSONArray();	jsonArray.add(jsonString)
+10.jsonArray to jsonObject			>>>		JSONObject js = new JSONObject();	js.put("data", jsonArray)
+
+	

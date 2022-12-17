@@ -1,0 +1,123 @@
+Smoke Testing:
+	
+What is critical feature?
+	main feature which cm can use to run their business
+	
+When to do smoke testing?
+	whenever we recive the build run smoke testing before doing thourugh and regousrous tests
+	
+Types:
+	Formal 		- 	smoke suite is available(Threshold needs to pass)
+	Informal 	-	no smoke tests available, No build acceptance report, depends on testers whether they want to run it
+	
+Smoke vs Sanity:
+	smoke : performed when software is new, first time QA receives the build
+			Features:
+					Testing each and every part of application on high level
+					smoke suites are automated as critical features are fixed
+					positive testing
+					performed by dev and QA
+					performed when build is not stable
+					its a general health checkup
+	
+	sanity : 	ur smoke is done, component, integation done but during system tests u found a major issue/blocker
+				and now build is sent back to the dev
+				when this issue is fixed that time we will perform sanity testing to decide can we accept the build or not
+			Features:
+					narrow regression testing
+					one or few areas of testing in depth
+					subset of regression
+					ususally not automated as areas may differ each time
+					positive and negative tests
+					only done by QA
+					specialized health checkup
+					
+-------------------------------------------------------
+Regression Testing:
+		verifying that unchanged features are not disturbed due to recent changes in the application:
+			like adding/removing/modifying the feature, bug fixes
+			
+Types:
+	Unit: Verifying only the changed part
+	Regional : changed part and impacted areas .....generally decided in CIA meetings
+	Full : 	changed features and remaining part
+			done at end of release 
+				or when chnages are present in the majority of modules
+				or changes are done at root of the project
+				application paltform or environment is changed 
+-----------------------------------------------------
+
+Severity:
+	Blocker	:	Customer cant use the application
+	Critical:	core business functionality is impacted
+	Major 	:	Not able to understand the impact on the workflow / Functionality is working but not reflecting in the UI
+	Minor	:	NOt impacting the funationlity..look and feel, spelling mistakes, look and feel is different on different browsers
+	
+	
+Priority:
+	P0	:	Needs in very next build
+	P1	:	
+	P2	:
+
+---------------------------------
+Principles of software testing:
+	Start testing as early as possible
+	Defects clustering
+	Pesticide paradox: Needs to update tests regularly
+	Context based: aprroact will be differetn for web based e.g. needs to carry performance and load
+	Early Testing:
+	No exhaustive testing: do not tests for same types of inputs
+	Bug free software is not possible
+	
+-----------------------------------
+
+Defect 	: when dev is found difference in actual and expecetd during their component tests
+Bug 	: when QA finds difference in actual and epecetd outcome and it is accepted by dev (informal name given to the defect)
+Error	: mistakes in code due to which not bale to compile the code
+failure	: production defects
+
+----------------------------------
+Test Plan:
+	Objective				: what steps we are going to follow, who will be reviewers
+	scope					: features we are going to test/not going to test
+								e.g. Features written by Tech writers e.g. About US section
+	Testing Methodolgies	: For web application        -> smoke->component-integation->system->performance, Load, Stress
+							  For standalone application ->
+    Approach				: Test engineers should write only tcs/ only test scenarios/ flow charts
+	Assumptions				: Help will be available for testers
+	Risk					:
+	Backup/mitigation		: what if someone leaves company,
+	Roles and Responsibilities:		Test Manager ->	Make sure env is available all the time
+													Resource allocation
+													Access for production environment
+								 	Test Lead	-> 	Assigning modules, tasks
+													Test case review
+													Approveing the tests
+									Test Engineer-> write scenarios
+													Get it approved from test lead
+													Test execution
+	Schedulting				: Milestones, start and end date
+	Defect Tracking			: Severity priority pattern
+	Test Envirobnment		: who will provide/ Maitenance/ Backup plan
+	Entry and exit Criteria	: 80% smoke tests should pass/ 80% of component test should pass
+								e.g exit criteria of prev stage of testing should pass before entering next stage
+	Automation				: which all features will be automated, which tools will be used, frameworks will be used
+	Deliverables			: 	Test cases/scenarios, 
+								Tracebility matrix, 
+								Defect Reports, 
+								Execution report, 
+								Release notes ( Installation steps, version, features added, removed, defects fixed, Known issues)
+	Templates				: 	For Test cases
+								Defects
+								Raising code review
+								Execution Reports
+								
+---------------------------------------------------
+Test plan vs Test Strategy:
+
+		-Test Manager to decide how/when/who/what we will test vs Project Manager on what type of techniques to follow
+		-project level vs org level
+		-documentation format, team reporting structure
+		-client communication strategy
+
+--------------------------------------------------

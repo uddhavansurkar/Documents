@@ -1,0 +1,82 @@
+RetryMechanism:
+
+public interface IRetryAnalyzer {
+	public boolean retry(ITestResult result);
+}
+
+
+------------------------------
+package Tests;
+
+import org.testng.IRetryAnalyzer;
+import org.testng.ITestResult;
+
+public class RetryAnalyzer implements IRetryAnalyzer {
+	
+	int counter = 0;
+	int retryLimit = 4;
+	
+	@Override
+	public boolean retry(ITestResult result) {
+
+		if(counter < retryLimit)
+		{
+			counter++;
+			return true;
+		}
+		return false;
+	}
+}
+
+There are two ways to implement this:
+1.By specifying retryAnalyzer value in the @Test annotation
+2.By adding Retry analyser during run time by implementing on the of the Listener interfaces
+
+
+Approach 1:
+public class Test001 {
+
+	@Test(retryAnalyzer = Tests.RetryAnalyzer.class)
+	public void Test1()
+	{
+		Assert.assertEquals(false, true);
+	}
+
+	@Test
+	public void Test2()
+	{
+		Assert.assertEquals(false, true);
+	}
+}
+
+Approach 2: Specifying retryAnalyzer during runtime
+
+public class AnnotationTransformer implements IAnnotationTransformer {
+
+	@Override
+	public void transform(ITestAnnotation annotation, 
+                                                Class testClass, 
+                                                Constructor testConstructor,
+                                                Method testMethod) {
+		annotation.setRetryAnalyzer(RetryAnalyzer.class);
+	}
+}
+
+add it as a listener in the testng run xml
+
+<suite name="RetryFailedTests" verbose="1" >
+ <listeners>
+        <listener class-name="Tests.AnnotationTransformer"/>
+  </listeners>
+  <test name="RetryMulitple">
+    <classes>
+      <class name="Tests.Test001"/>
+    </classes>
+  </test>
+</suite>
+
+Approach 3: We can create custom annotation e.g. @RetryCountIfFailed(10) using CustomAnnotations package in java
+
+
+------------------------------------------------------------
+GROUPS:

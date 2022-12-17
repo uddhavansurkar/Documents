@@ -1,0 +1,86 @@
+replace characters in the string:
+Soln1:
+
+Step1:Create a dict with mapping values:
+	table = str.maketrans('ATCG', 'TAGC')
+Step2:translate mapping values
+	print(inputstr.translate(table))
+
+Soln2:
+    reference = { "A":"T",
+                  "T":"A",
+                  "C":"G",
+                  "G":"C"
+                  }
+    return "".join([reference[x] for x in inputstr]) ==>fetching the value form dict using key and storing in list using comprehensions
+
+----------------------------------------------------------
+
+return the middle charcters of the string
+
+def get_middle(s):
+    i = (len(s) - 1) // 2
+    return s[i:-i] or s
+
+
+def get_middle(s):
+    le = len(s)
+    return s[int(le/2)] if le % 2 != 0 else s[int(le/2)-1:int(le/2)+1]
+
+
+def get_middle(s):
+    index, odd = divmod(len(s), 2) ==>gives quotionet and remainder
+    return s[index] if odd else s[index - 1:index + 1]
+
+
+---------------------------------------------------------
+def subtractProductAndSum(self, n: int) -> int:
+number = [int(x) for x in list(str(n))]
+return math.prod(number)-sum(number)
+---------------------------------------------
+
+LIST Comprehensions:
+[' ' + x if x.isupper() else x for x in word]
+[ i for i in num1 if i not in num2]
+
+
+----------------------------------------------------
+return indices of the two numbers such that they add up to target
+
+Solution1:
+ i = 0
+        while i < len(nums):
+            newNum = target - nums[i]
+            if newNum == nums[i]:
+                if nums.count(newNum) > 1:
+                    return [i, i +1 + nums[i + 1:].index(newNum)]
+                else:
+                    i = i + 1
+                    continue
+            elif nums.count(newNum) == 1:
+                return [i,nums.index(newNum)]
+            i = i + 1
+			
+Solution2: using dictionary
+
+-----------------------------
+roman to integers
+class Solution:
+    def romanToInt(self, s: str) -> int:
+        d = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500,'M': 1000,'IV':4,'IX':9,'XL':40,'XC':90,'CD':400,'CM':900}
+    
+        sum = 0
+        i=0
+        while i< len(s) :
+            if s[i] in ['I','X','C']:
+                if s[i:i+2] in d and i< len(s)-1:
+                    sum = sum + d[s[i:i+2]]
+                    i = i + 2
+                else:
+                    sum = sum + d[s[i]]
+                    i = i + 1
+            else:
+                sum = sum + d[s[i]]
+                i = i + 1
+        return sum
+        

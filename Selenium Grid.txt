@@ -1,0 +1,86 @@
+Selenium Grid
+
+1.Download Selenium server jar
+
+2.Register hub
+java -jar selenium-server-4.6.0.jar standalone
+
+3.check if server is running http://localhost:4444
+
+
+----------------------------------------------------------
+1.pull jenkins image 
+docker run -p 8080:8080 -p 50000:50000 -d -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts
+
+2.get the initial password 
+docker ps
+docker logs <conainter_id>
+
+3.Login to jenkins 
+http://localhost:8080  -> this will redirect to login screen
+
+
+4.Complete installation setup
+	-install suggested plugins
+	-create first admin user
+	
+System cred: available only on jenkins server
+			not for jenkins job
+			
+Global cred : everywhere accessoble
+
+Proj cred: Limited to pipeline
+
+5.Create multibranch pipeline
+provide git repo cred
+
+add jenkins files to proj
+
+pipeline{
+	agent any
+
+	stages{
+  
+		stage("build"){
+			steps{
+				echo 'building the application'
+				
+				scripts{
+						def test= 2+2 >3 ? 'cool' : 'not cool'
+						echo test
+				}
+			}
+		}
+  
+		stage("test"){
+			steps{
+				echo 'testing the application'
+				sh 'mvn clean compile'
+			}
+		}
+  
+		stage("deploy"){
+			steps{
+			echo 'deploying the application'
+			}
+		}
+	}
+}
+
+Once buld is successful we get twi optins below "console output"
+	1.Replay
+		-here we can modify jenkins file and re-trigeer the last build
+		
+	2.Replay with stage
+		-here we can re-trigeer and decide from which stage we needs to start
+		
+---------------------------------
+Automatic trigger for the jenkins build
+
+1.push notification : this is done from source code management system whenever new commit arrived
+
+2. polling from jenkins 
+
+
+-------------------------------------
+Configuring build tools in 

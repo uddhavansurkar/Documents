@@ -1,0 +1,33 @@
+Page Object Model:
+	BasePageClass:
+		initilzation of driver for all browsers
+		maximize the window
+		pageLoadTImewout
+		implicit wait
+		delete cookies
+		
+		
+	Page Class>>>extending the BasePageClass
+		1.By.locators
+		2.Consructor{
+			driver object
+			}
+		3.Actions/Page Methods
+		
+	BaseTestClass:
+		BeforeTest:
+			initilaization of drivers
+		AfterTest:
+			quit methods
+			
+	TestClass>>>extending BaseTestClass
+		@Test:
+			calling PageClasses
+			Assertions
+			
+			
+RULE1: DO NOT USE ASSERTINS IN PAGE Class
+
+RULE2: DO NOT USE DRIVER IN TEST CLASS
+		
+			

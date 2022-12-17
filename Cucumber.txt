@@ -1,0 +1,134 @@
+TDD: 
+1.  Stakeholders tell business needs to PO/BA
+
+2.  PO/BA writes the requirement SRS
+
+3.	Dev : Starts coding
+	QA	: Starts writting the test cases
+	
+4. 	Regression cycles
+	Bug cycles 
+	
+5.	Finish product and documentation
+
+cons:
+	No collabaration, all working in silo
+	No brainstorming for dev/qa with stakeholders
+	
+----------------------------
+
+BDD methodology:
+
+1. 	Stakeholders and PO/BA talks about business requirements
+	PO/BA tries to understand what business needs are
+	
+	and creates Feature or US
+
+2. 	PO/DEV/QA ->Three amigos
+	collaborates around the requirement
+	why are we devolping
+	what are the impact areas
+	how we can 
+	
+3.	Agreed upon requirement formatted in English scenarios(gherkin)
+
+4.	QA uses this for manual Test cases
+	Dev/Automation uses this for automation tests ->cucumber
+	
+Adv:
+	collaborate more
+	getting chance to ask the question
+	everyone is on the same page intearms of features are going be defined
+	
+-------------------------------------------------
+Current version ->cucumber 6
+TestRunner.java
+
+@cucumberOptions(
+
+features = {"src/test/java/AppFeatures"},
+glue = {"stepDefinitions"}
+plugin = {"pretty", "json:.../report.json", "junit:..../report.xml"},
+tags = "@smoke and @sanity" ---- "not @prod"
+
+)
+
+
+---------------------------
+
+for same step definition we cannot mix both type of regular expression:
+
+1.Regular Expression
+2.Cucumber Expression - step definition file will generate this by default as below
+
+@Then("order is {int} and username is {string}")
+public void order_is_here(Integer int1, String str){
+
+
+}
+
+Regualr expressions:
+([0-9]) -> any digit from 0 to 9 can occur
+
+Quantifier:(how many times a char needs to be occured
+	+	one or more
+	{4}	4 digits
+	*	any number of digits
+	?	zero or one
+
+Short hand characters:
+	\d 		digis
+	\D   	non-digit
+	\w 		word
+	\W		non-word
+	\s		space/tab	 	
+	
+e.g
+([a-zA-Z0-9]+)
+
+\"([^\"]+)
+
+Note : Make sure start statement with ^ and end with $
+
+------------------------------
+hooks:
+
+@Before(order=1)
+@BeforeStep
+
+-----------------------------------
+
+dataTables as List
+
+when user logins on login page
+	|webuser| Edison1@3|
+	|geadmin| Edison1@3|
+
+public void Test(Datatable table){
+
+List<List<String>> userList = table.asList(String.class);
+
+for (List<String> list  :userList){
+
+ System.out.print(list)
+}
+}
+
+-------------------------------
+
+when user logins on login page
+	|username|password|--------------->first row is header
+	|webuser| Edison1@3|
+	|geadmin| Edison1@3|
+
+dataTables as Map
+
+public void Test(Datatable table){
+
+List<Map<String,String>> userMap = table.asList(String.class,String.class);
+
+for (Map<String> map  :userMap){
+
+ System.out.print(map.get("username")
+}
+}

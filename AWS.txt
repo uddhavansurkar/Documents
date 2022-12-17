@@ -1,0 +1,35 @@
+AWS CLI:
+
+pwd -> print working dir
+
+install aws cli msi so that we can use it from local cmd
+how to login: 
+1.aws configure
+	provide access key and secret key
+
+1.how to generate above keys
+
+IAM Service-> users ->click on admin user -> click on security cred tab-> access key
+		create new access key since if we loose secret key there is no way to generate secret key
+
+2.cmd to check how many users available:
+		
+aws iam list-users
+aws iam list-groups
+
+arn: aws resource name
+
+we can attach he policy to group or user:
+Limitation:
+	As of now no solution found o view which policy we can use from CLI..we needs to know exact policy arn
+	also we cannot add multiple policies once
+	--above are possible using GUI
+	
+	we can view which policy is attached to group using CLI
+	
+	
+--------------------------
+EC2:
+	EBS -> extended storage
+	
+iaas- > compute cloud

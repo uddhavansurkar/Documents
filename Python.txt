@@ -1,0 +1,25 @@
+lambda argument_list : expression
+
+filter(function,sequence)  >>>return type sane as input sequence
+l1=list(filter(lambda x:x%2==0,l))
+
+
+map(function,sequence)  >>>no of element in output will be same as input element
+l1=list(map(lambda x:2*x,l))
+
+reduce(function,sequence) >>>reduces sequence of elements into a single element
+result=reduce(lambda x,y:x+y,l)
+
+-------------------------------------
+public void runPython() 
+{ //need to call myscript.py and also pass arg1 as its arguments.
+  //and also myscript.py path is in C:\Demo\myscript.py
+
+    String[] cmd = {
+      "python",
+      "C:/Demo/myscript.py",
+      this.arg1,
+    };
+    Runtime.getRuntime().exec(cmd);
+}
+

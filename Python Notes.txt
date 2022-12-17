@@ -1,0 +1,63 @@
+List:
+insertion order
+duplicate allowed
+mutable
+
+Take input from cmd=> l= eval(input('Enter values'))
+
+Nested Lists: l=[10,20,['A','B']]
+
+List methods:
+
+append(ele)
+insert(ele,index)
+l1.extend(l2)
+remove(ele) ->only remove but not return anything
+pop(index)=>remove and return element at index
+reverse()
+sort()
+sort(reverse=true)
+copy()
+clear()
+
+Aliasing vs cloning
+
+Aliasing->give nother ref variable to existing object =>y=x
+Cloning-> create new object with same values => y=x.copy() or y = x[:]
+
+Comparison:
+x==y   -> content comparison
+x is y -> reference comparison
+
+x=["Dog","Cat","Rat"] 
+y=["Dog","Cat","Rat"] 
+z=["DOG","CAT","RAT"] 
+
+x is y 		-> false since list is always different object 
+x[0] is y[0] 	-> True since string is immutable hence same onj will be shared with multiple reference
+
+LIST COMPREHENSIONS:
+
+1.
+list = [<expression> for x in <sequence>]
+
+here for loop is repeated no of times as per sequence
+and every time expression is evaluated and value appended to list
+
+2.
+list = [<expression> for x in <sequence> if <condition>]
+
+element is appended if only condition is true
+
+
+--------------------
+
+Instance variables:
+	-can be created from outside of class
+
+Static Variable:
+	-can be decalred inside constructr
+	-can be created inside method
+	-can be created inside class method @classmethod (2 ways->1. Classname.varname 2.cls.varname)
+	-inside static method
+	-from outside of the clss

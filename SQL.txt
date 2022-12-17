@@ -1,0 +1,125 @@
+https://techtfq.com/blog/top-20-sql-interview-questions
+
+------------------------------------------------------------
+
+INNER JOIN will fetch only those records which are present in both the joined tables. 
+
+The matching of the records is only based on the columns used for joining these two tables. INNER JOIN can also be represented as JOIN in your SELECT query.
+
+SELECT cr.country_name, ct.continent_name
+
+FROM continents ct
+
+INNER JOIN countries cr 
+
+ON ct.continent_code = cr.continent_code;
+
+
+--------------------------------------------------------
+LEFT JOIN will fetch all records from the left table even if those records are not present in right table
+
+records which are not present in right table (but present in left table), SQL will return a NULL value
+
+SELECT cr.country_name, ct.continent_name
+
+FROM continents ct
+
+LEFT JOIN countries cr 
+
+ON ct.continent_code = cr.continent_code;
+
+--------------------------------
+
+SELF JOIN is when you join a table to itself. 
+
+SELECT cr1.country_name
+
+FROM countries cr1
+
+JOIN countries cr2 
+
+ON cr1.country_code = cr2.continent_code;
+
+------------------------------
+Natural join:
+	when doing the natural join, both the tables need to have columns with same name and these columns should have same data type.
+	not need to use the ON clause 
+	
+SELECT cr.country_name, ct.continent_name
+
+FROM continents ct
+
+NATURAL JOIN countries cr;
+
+---------------------------------
+Aggregate Functions:
+	
+1.SELECT dept_id, SUM(salary) as total_salary_per_dept 
+
+FROM employee 
+
+GROUP BY dept_id;
+
+2.SELECT dept_id, AVG(salary) as avg_salary_per_dept 
+
+FROM employee 
+
+GROUP BY dept_id;
+
+3.SELECT dept_id, MIN(salary) as min_salary_per_dept 
+
+FROM employee 
+
+GROUP BY dept_id;
+
+4.SELECT dept_id, MAX(salary) as max_salary_per_dept 
+
+FROM employee 
+
+GROUP BY dept_id;
+
+5.SELECT dept_id, COUNT(emp_id) as no_of_emp_per_dept 
+
+FROM employee 
+
+GROUP BY dept_id;
+
+
+
+-------------------------------------------------------
+SQL queries:
+
+Fetch even rows using MOD() function:
+SELECT * FROM Patients WHERE MOD(PatientID,2)=0;
+
+Fetch odd rows using MOD() function:
+SELECT * FROM Patients WHERE MOD(PatientID,2)=1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

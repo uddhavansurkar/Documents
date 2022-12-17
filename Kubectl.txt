@@ -1,0 +1,392 @@
+Docker:		tool designed to create, deploy and run application by using containers
+
+Image: 		lightweight, standalone, executable package of software that includes everything needed to				
+		    run application code, runtimes, system tools , system libraries and settings
+
+Container:	runtime instance of Image
+
+Dockerfile:	file where we write instructions to build Docker Image
+
+DockerHUb:	central repository for docker images 
+
+---------------------------
+For Selenium conatiners below three components are needed:
+	-Selenium jars
+	-java
+	-chrome
+
+--------------------------------
+Docker installation:
+1.Get Docker desktop for windows from 
+https://docs.docker.com/desktop/install/windows-install/
+
+-----------------------------------
+Docker Commands:
+1.docker --version
+
+2.docker ps
+It will check if any container is running on machine
+
+3.docker pull <img_name>:<tag_name>
+e.g docker pull selenium/standalone-chrome:latest
+
+4.docker images
+lists all images from local machine
+
+5.docker run -d -p 4444:4444 -v /dev/shm:/dev/shm <img_name>:<tag name>
+docker run -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome:latest
+
+
+run->start new container
+-d ->run this container in the background
+4444:4444-> 	Selenium by default listens to 4444
+		from 4444 port of local machine to 4444 port of container
+-v /dev/shm:/dev/shm -> volume needs mount in oder to prevent chrome from crashing
+
+>>>setx /M MAVEN_HOME "C:\Program Files\apache-maven-3.8.6"
+>>>SET JAVA_HOME=C:\Program Files\Java\jdk1.7.0_04
+
+6. docker logs <CONTAINER_ID>
+to check the logs 
+
+java program to run tests on docker
+
+URL url = new URL("http://localhost:4444/wd/hub");
+DesiredCapabilities cap= new DesiredCapabilities();
+cap.setCapability("browserName", "chrome");
+RemoteWebDriver driver = new RemoteWebDriver(url,cap);
+driver.get("http://www.google.com");
+System.out.println(driver.getTitle());
+
+
+------------------------------------------------
+Selenium Grid + docker via docker compose file
+
+There is docker-compose.yaml file is available where hub and node networking already done using depends-on attribute
+https://github.com/SeleniumHQ/docker-selenium/blob/trunk/docker-compose-v3.yml
+
+run below command
+>>>docker-compose -f docker-compose.yaml up
+
+check in console if everything is running:
+http://localhost:4444/grid/console
+
+Now,
+if we want 4 chrome nodes with 1 hub node
+>>>docker-compose scale chrome=5
+
+------------------------------------------
+running batch file programatically
+
+Runtime run = Runtime.getRuntime();
+run.exec("cmd /c start c:\Users\...commads.bat")
+
+---------------------------------------------
+-----------------------------------------------
+Kuberneters(k8) : 
+	open source container orchastrator
+	(orchastration -  bundling and managing clusters of containerized applications)
+	for automating software deployment, scaling, and management 
+
+	originally from google now maintained by CloudNativeComputing
+
+
+Relation between Docker and K8:
+	-While Docker is a container runtime, Kubernetes is a platform for running and managing containers from many container runtimes
+
+
+
+--------------	
+components of K8:
+	
+1.Node 	:	Physical machine/vm
+
+2.Container:	static file that includes executable code so it can run an isolated process 
+
+3.pod	:	-Abstraction over the container
+		-creates running enviromrnt or layer over the container
+		 so that no needs to interact with container directly
+		-each pod has its own ip address when pod dies/restrts it gets new ip
+
+4.Service:	-permanant ip/static ip assigned to each pod
+		 even if pod dies/restarts IP for service does not chnage
+		-also acts as load balancer ->decides which pod is busy
+
+5.Ingress:	-DNS resolver for external requets to service
+		-routes traffic within K8 cluster
+
+6.ConfigMap:	-external configuration of application
+
+7.Secret:	-same as configMap used to store the data
+
+8.Volumes:	-Used to attach physical storage
+			-local storage
+			-remote directlry
+			-cloud 
+		-volumes are not part of K8 cluster
+
+9.Deployments:	-Blueprint for application pod
+		-stateless replication for application pod
+
+10.StatefulSet: manages sync between databases
+		stateful replication for DB pod
+
+---------------------------------------------
+Architecture:
+	Three Processes needed on evey node to schedule and run pod:
+	1.Container Runtime 	
+		e.g docker
+	2.kubelet
+		-schedules and configures pod
+		-interact with both container and Node
+		-resposible for running/starting the pod
+		-assigns resources to pod CPU, RAM
+	3.kube proxy
+		-forwards the request from service to pod
+
+
+Master Processes/Nodes:
+	1.API Server
+		-user interacts to deploy new nodes
+		-gets initial update/query request from user
+		-performs authentication
+	2.Schdeuler:
+		-decides for which pod next request will be scheduled
+		-verifies how much resources requests needs and how much resources availeble with existing pods
+		-check which node is least busy
+		-interacts with kubelets present in the node for forwarding the request
+	3.Controller Manager:
+		-detects state changes in the cluster
+		e.g.
+		pod dies or restarts
+		-interacts with Scheduler to check where to restart/create pod
+	4. etcd
+		key-value pair of cluster data etc. new pods data, how many times pods restarted, cluster heath
+
+
+-------------------------------------------
+Minicube
+------------------------------------------
+Simple one node kubernetes cluster where master processes/ worker processes runs on same node
+used to tests local setp of single node
+
+-creates virtual box on laptop
+-nodes run in that virtual box
+
+
+--------------------------------------------
+kubectl
+---------------------------------------
+-command line tool for kubernetes cluster
+-interacts with API server of master processes
+
+1.For Creating pod(we needs to create deployment)
+	kubectl create deployment <name> --image=<image-name>
+
+pod name will be in below format:
+
+<deployment-name> <replicaset> <pod id>
+gehc-eo-trigger-<abcd>-<id>
+
+2.Edit the image used in deployment
+kubectl edit deploy <deployment-name>
+
+modify the image name in autogenerated image file
+old pod terminated and new pod created
+
+3. Creating pod with configuration file
+kubectl apply -f config-file.yaml
+
+
+4.Delete the pods
+
+kubectl delete deployment mongo-depl
+
+or edit deployment file make replicas = 0 
+
+or delete service and deployment configuration file
+
+--------------------------------------------------------------------
+deployment configuration file:
+	1.description
+	2.metadata
+	3.specifications
+	4.status -> automatically generated by k8
+
+deployment configuration file contains config for pod
+i.e. ymal inside yaml deployment-config.yaml->specifications->template-> here pod configuration will be available
+
+-----------------------
+Connecting deployment to the pod:
+	there is a attribute labels -> app : <labelname> in deployment metdata and template metadata
+	this both will be matched 
+
+Connecting services to the Deployments:
+	there is a attribute labels -> app : <labelname> in deployment metdata and selector services 
+	this both will be matched 
+
+Ports:
+	pod has container port
+	service will have two ports -> port and target-port(this will be port of container)
+
+
+get output in yaml format
+kubectl get deployment <deploy-name> -o yaml > config-file-result.yaml
+
+---------------------------------------
+Deploying application and database on kubernetes
+---------------------------------------
+
+1. Create a secret.yaml configuration file for username and password
+kind: Secret
+
+kubectl apply -f secret.yaml
+
+2. Create db-config.yaml for database deploymenet
+	needs port
+	needs secret.config for credenatials
+kubectl apply -f db-config.yaml
+
+3.Create Service.yaml file for db
+kind: Service
+	make sure both ports are mentioned
+	make sure selector is correctly mapped to pod
+kubectl apply -f service.yaml
+
+4.check if everything is created
+kubectl get all | grep eo-trigger
+
+5.Create configuration file to store database url 
+appVersion:
+kind:ConfigMap
+metadata:
+	name:
+data:
+	database_url:
+
+kubectl apply -f configMap.yaml
+
+6. Create deployment file for application deployment using configMap reference
+kubectl apply -f application.yaml
+
+7.Create a service to access application 
+kind: Service
+
+only difference here from service from db deployment is that 
+	1.we will include type as "LoadBalancer" inside spec:
+	2.In port we will add an additional port as nodePort for external IP address [needs to be between 30000 to 32767] 
+
+This loadbalancer assigns public ip address to service hence we can access this from outside
+
+kubectl apply -f application-service.yaml 
+
+Note: when we sat Kubectl get Service command..we will observe type as Cluster IP for db but "LoadBalancer" to application service
+
+---------------------------
+Namespace:cluster inside cluster
+-----------------------------
+Ingress
+
+kind:Ingress
+metadata:
+spec:
+	rules:
+	- host: myapp.com (domain name we can give)
+	  http: (incoming requests forwarded to internal service)
+	    paths:
+	    - backend:
+		serviceName: (this is name of service for application deployment)
+		servicePort: (this is node port defined for services)
+
+Ingress COntroller we needs to install
+	-evaluates all the rules
+	-manages redirections
+	-entrypoint to cluster
+
+------------------------------------
+
+helm-
+1.Package Manager
+package yml files and distribute them in public and private repositories
+
+2.Reuse configurations that someoneelse has created
+
+Helm charts : 
+	Bundles of yaml files
+	create own helm charts and push them to helm repository
+
+Helm search <keywords>..we can search helm charts available
+
+3.Use it as templating engine: (define a common blueprint and dynamic values will be replaced by placeholder)
+
+	create a template yaml (Chart.yaml) file with below attributes
+		metadata:
+			name :{{.values.name}}
+		spec:
+		  containers:
+		  - name : {{.Values.container.name}}
+
+these values will come from values.yaml file present inside the same directory
+
+Uses:
+	used when same application is used in different environments
+
+helm install --values=my-values.yaml <chartname>
+
+we can override values present using command line 
+hem install --set <e.g version>=<2.0.0>
+
+
+-------------------------------------------------
+volume
+
+-k8 does not give data persistances
+-required a storage that does not depends on pod lifecycle
+-storage must be available for all nodes as we are not sure on which node pods will be created
+-data needs to survice even if cluster crashes
+
+1.Persistance volume:(interface provided by k8)
+	-a cluster resource
+	-created via YAML file
+		-kind: PerstanceVolume
+		-metadata:
+		-spec:
+			capacity:
+			 storage:5Gi
+			volumeMode: FileSystem
+	-actual data will be in harddrive, remote dir or cloud or hybrid storage
+	-they are not namespaced means available for all clusters
+
+2.who creates persistance volumes:
+	-they have to be already there before pods or any resource is getting created
+	-K8 administrator creates this storage
+		-Now application has to claim that volume using pvc components	
+		-This can be done using pvc forms and pvc are created with the help of yaml files
+			kind:PersistanceVolumeClaim 
+		-in pod configuration we have th atrribute for volumes with pvc name
+
+Note: ConfigMap and Secreat are also volumes but not created via pvc
+
+3.Storage class:
+	-Storage class will create persistance volumes dynamically when pvc claims it
+	-storage class gets created using yaml file
+		kind:StorageClass
+		metadata;
+		provisinor:kubernetes.io/aws-ebs
+	-creates pvc in the backend, each storage backned has own provisinor
+To use storage class instead of persistance volume we needs to mention storageClassName in pvc yaml file
+
+
+
+
+	
+
+
+-----
+
+
+
+
+
+
+---------------------

@@ -1,0 +1,90 @@
+Recursion:(complexity 2^n)
+
+1.Identify the base case -->when to stop
+2.Identify the recursiove case
+3.Get closure and closure and return when needed
+Usually we have two returns
+
+e.g.
+
+counter = 0
+def inception(){
+counter++
+if counter>3
+	return 'done'
+
+return inception()
+}
+
+print(inception())
+
+
+When to use:
+1.Divided into a number of subproblemss that are smaller instances of same problem
+2.Each instance of subproblem is identical in nature
+3.The solution of each subproblem can be combined to solve the problem in hand
+
+
+----------------------------------Comparison Sort--------------
+Bubble sort --> swap mehod inside nested for loop
+
+Selection sort --> consider first element as min, then itrerate through all elements and compare adjuscent elements and swaps if former is greater the next element
+
+Insertion sort: take one number at a time from begining, keep it as it is,take second number if that is less than 1st then keep at 1st place,take 3rd number and keep it according to 1and 2nd number alreadt present
+
+MergeSoft: Divide and conquer O(n log n)
+
+Quick Sort: Select and pivot swap all lesser in left side and all greater on right side
+
+
+When to use what?
+1. Insertion sort:
+	when list is small
+	items are mostly sorted
+
+	Adv :1.low space 2.easy to implement\
+
+2.Bubble Sort:
+	Nver
+
+3.Selection sort:
+	Only for teaching puposes
+
+4.Merge sort:
+	stable best case and worst case output
+
+	Adv: Really fast even in worst case
+	
+	Disadv : Worst space complexity-> o(n)
+		If sorting will be done in external memeory..this will be preferred
+
+5.Quick Sort: Most popular
+		use when average case performance matters than worst case performance
+
+		Disadv:
+			if we dont select pivot properly time complexity will be o(n^2)
+		Adv:
+			memory-> o(n log n)
+
+------------------------Non comparison sort------------------------
+
+Redix sort
+Counting Sort
+
+-->uses information how the values stored in heap memry and sorts the list based on that
+-->only useful for numbers
+-->with fixed range
+
+
+------------------------
+sort
+
+javascript-> browser specific
+		chrome->quick sort, insertion sort for smaller arrays
+
+Python -> timesort (hybrid of merged + insertion)
+
+Java -> dual pivot quick sort
+
+
+		
