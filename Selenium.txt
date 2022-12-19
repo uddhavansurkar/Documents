@@ -1,0 +1,38 @@
+Keyboard inputs:
+
+element1.sendKeys(Keys.ENTER);
+String a = Keys.chord(Keys.CONTROL,Keys.RETURN);
+driver.findElement(By.partialLinkText("Software Testing Help - A Must Visit Software Testing Portal")).sendKeys(a);
+Robot robot = new Robot(); // instantiated robot class
+robot.keyPress(KeyEvent.VK_CONTROL); //
+
+------------------------
+
+PDFBox:
+
+string pdfurl = "file:///C:/GitRepo/Documents/pdfcoffee.com_java-means-durga-sir-3-pdf-free.pdf"
+driver.get(pdfUrl);
+
+
+URL pdfURL=new URL(url);
+
+InputStream is=pdfURL.openStream();
+
+BufferedInputStream bis=new BufferedInputStream(is);
+
+PDDocument doc=PDDocument.load(bis);
+
+
+//get total number of pages:
+int pages=doc.getNumberOfPages();
+
+//strip the document:
+PDFTextStripper strip=new PDFTextStripper();
+strip.setStartPage(1);
+strip.setEndPage(2);
+String stripText=strip.getText(doc);
+
+//assert PDF Text
+Assert.assertTrue(pdfContent.contains(“Google Infrastructure Security”));
+
+

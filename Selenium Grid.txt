@@ -24,12 +24,12 @@ http://localhost:8080  -> this will redirect to login screen
 	-install suggested plugins
 	-create first admin user
 	
-System cred: available only on jenkins server
-			not for jenkins job
+System cred : 	available only on jenkins server
+				not for jenkins job
 			
-Global cred : everywhere accessoble
+Global cred : 	everywhere accessible
 
-Proj cred: Limited to pipeline
+Proj cred	: 	Limited to pipeline
 
 5.Create multibranch pipeline
 provide git repo cred

@@ -19,8 +19,5 @@ HashSet<String> hs = new HashSet<String>();
 			
 ----------------------------------------------
 
-element1.sendKeys(Keys.ENTER);
-String a = Keys.chord(Keys.CONTROL,Keys.RETURN);
-driver.findElement(By.partialLinkText("Software Testing Help - A Must Visit Software Testing Portal")).sendKeys(a);
-Robot robot = new Robot(); // instantiated robot class
-robot.keyPress(KeyEvent.VK_CONTROL); //
+
+
