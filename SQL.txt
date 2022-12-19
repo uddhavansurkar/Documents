@@ -95,7 +95,44 @@ SELECT * FROM Patients WHERE MOD(PatientID,2)=0;
 Fetch odd rows using MOD() function:
 SELECT * FROM Patients WHERE MOD(PatientID,2)=1;
 
+retrieve the first four characters
+SELECT SUBSTRING(EmpLname, 1, 4) FROM EmployeeInfo;
 
+fetch the EmpFname from the EmployeeInfo table in upper case
+SELECT UPPER(EmpFname) AS EmpName FROM EmployeeInfo;
+
+Fetch string before "("
+SELECT SUBSTRING(Address, 1, CHARINDEX('(',Address)) FROM EmployeeInfo;
+
+find all the employees whose salary is between 50000 to 100000
+SELECT * FROM EmployeePosition WHERE Salary BETWEEN '50000' AND '100000'
+
+find the names of employees that begin with ‘S’
+SELECT * FROM EmployeeInfo WHERE EmpFname LIKE 'S%';
+
+Retrieve the EmpFname and EmpLname in a single column as “FullName”
+SELECT CONCAT(EmpFname, ' ', EmpLname) AS 'FullName' FROM EmployeeInfo;
+
+fetch all the records from the EmployeeInfo table ordered by EmpLname in descending order and Department in the ascending order.
+SELECT * FROM EmployeeInfo ORDER BY EmpFname desc, Department asc;
+
+https://www.edureka.co/blog/interview-questions/sql-query-interview-questions
+
+fetch details of employees whose EmpLname ends with an alphabet ‘A’ and contains five alphabets
+SELECT * FROM EmployeeInfo WHERE EmpLname LIKE '____a'
+
+fetch details of all employees excluding the employees with first names, “Sanjay” and “Sonia” from the EmployeeInfo table.
+SELECT * FROM EmployeeInfo WHERE EmpFname NOT IN ('Sanjay','Sonia');
+
+
+Nth highest salary from the table without using TOP/limit keyword.
+
+SELECT Salary 
+FROM EmployeePosition E1 
+WHERE N-1 = ( 
+      SELECT COUNT( DISTINCT ( E2.Salary ) ) 
+      FROM EmployeePosition E2 
+      WHERE E2.Salary >  E1.Salary );
 
 
 
