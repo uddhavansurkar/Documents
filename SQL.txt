@@ -133,9 +133,60 @@ WHERE N-1 = (
       SELECT COUNT( DISTINCT ( E2.Salary ) ) 
       FROM EmployeePosition E2 
       WHERE E2.Salary >  E1.Salary );
+	  
+Select TOP 1 customerid from Customers where customerid IN (
+  SELECT Top 3 customerid from Customers order by customerid asc) order by customerid desc ;
+
+-------------------------------------------------
+https://sqliteonline.com/
+
+CREATE TABLE Customers (
+    CustomerID int,
+    CustomerName varchar(255),
+    ContactName varchar(255),
+    Address varchar(255),
+    City varchar(255),
+	PostalCode varchar(255),
+	Country varchar(255)
+);
+
+INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)
+VALUES (101, 'Cardinal', 'Tom B. Erichsen', 'Skagen 21', 'Stavanger', '4006', 'Norway');
 
 
+INSERT INTO Customers (customerid, CustomerName, ContactName, Address, City, PostalCode, Country)
+VALUES (102, 'Ross', 'Ross Geller', 'Meadows', 'Waukesha', '53186', 'USA');
 
+INSERT INTO Customers (customerid, CustomerName, ContactName, Address, City, PostalCode, Country)
+VALUES (103, 'Rachel', 'Rachel Green', 'Milwaukee', 'Milwaukee', '4006', 'USA');
+
+INSERT INTO Customers (customerid, CustomerName, ContactName, Address, City, PostalCode, Country)
+VALUES (104, 'Monica', 'Monica Geller', 'Springdale', 'Waukesha', '53186', 'USA');
+
+
+INSERT INTO Customers (customerid, CustomerName, ContactName, Address, City, PostalCode, Country)
+VALUES (105, 'Chandler', 'Chandler Bing', 'Willow', 'Milwaukee', '4006', 'UK');
+
+INSERT INTO Customers (customerid, CustomerName, ContactName, Address, City, PostalCode, Country)
+VALUES (106, 'Joey', 'Joey Tribbiani', 'Fox', 'Milwaukee', '53186', 'Italy');
+
+INSERT INTO Customers (customerid, CustomerName, ContactName, Address, City, PostalCode, Country)
+VALUES (107, 'Phoebe', 'Phoebe Buffay', 'Waukesha', 'Waukesha', '4006', 'USA');
+
+
+-------------------------------------------
+Normalization is the process to eliminate data redundancy and enhance data integrity in the table.
+
+Normalization also helps to organize the data in the database.
+
+1NF	:	atomicity of the table is 1
+		atomicity states that a single cell cannot hold multiple values.		
+
+2NF	:	should not possess partial dependency
+
+3NF	:	should be no transitive dependency for non-prime attributes,
+		non-prime attributes (which are not a part of the candidate key) should not depend on other non-prime attributes in a table
+		ensures the reduction of data duplication
 
 
 

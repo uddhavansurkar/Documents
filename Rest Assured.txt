@@ -1,9 +1,8 @@
 Postman:
 
 
-1.Set Environmental variable from repose:
-	var data= JSON.parse(responseBody);
-	
+1.Set Environmental variable from respose:
+	var data= JSON.parse(responseBody);	
 	postman.setEnvironmentVariable('token', data.access_token);
 	
 2.Get environment variable:
@@ -266,8 +265,8 @@ jsonfile to javaObjects ----->objectMapper.readvalues(jsonFile, .class )
 6.javaObjects to jsonFile 			>>>		objectMapper.writevalue(jsonfile, classObject)
 7.jsonfile to javaObjects 			>>>		objectMapper.readvalues(jsonFile, .class )
 
-8.javaObject to jsonString			>>>		Gson g =  new GSON(); String s = g.toJson(pojoObject)
+8.javaObject to jsonString			>>>		Gson g =  new GSON(); String jsonString = g.toJson(pojoObject)
 9.jsonString to jsonArray			>>>		JSONArray jsonArray = new JSONArray();	jsonArray.add(jsonString)
 10.jsonArray to jsonObject			>>>		JSONObject js = new JSONObject();	js.put("data", jsonArray)
 
-	
+jsonString to JSONObject			>>> 	JSONObject jsonObj = new JSONObject(jsonString.toString());

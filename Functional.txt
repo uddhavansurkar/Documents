@@ -44,7 +44,7 @@ Types:
 			done at end of release 
 				or when chnages are present in the majority of modules
 				or changes are done at root of the project
-				application paltform or environment is changed 
+				application platform or environment is changed 
 -----------------------------------------------------
 
 Severity:

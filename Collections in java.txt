@@ -19,5 +19,14 @@ HashSet<String> hs = new HashSet<String>();
 			
 ----------------------------------------------
 
+cloning
+
+The class whose objectes will be cloned needs to implement clonable interface
+
+class Test implements Cloneable
+
+Test obj1 = new Test(1, 2);
+Test obj2 = obj1.cloning();
+
 
 
